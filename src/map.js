@@ -9,6 +9,7 @@ function getIsPlainObject(value) {
 function map(mapper, functor) {
     let mappedFunctor;
     const isPlainObject = getIsPlainObject(functor);
+    
     if (
         Object.hasOwn(functor, "map") && 
         typeof functor.map === 'function' && 
@@ -16,7 +17,7 @@ function map(mapper, functor) {
         ) {
             return functor.map(mapper);
     }
-    if (isPlainObject) {
+    else if (isPlainObject) {
         mappedFunctor = {};
 
         for (const [key, value] of Object.entries(functor)) {
