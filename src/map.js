@@ -9,7 +9,6 @@ function getIsPlainObject(value) {
 function map(func, functor) {
     let mappedFunctor;
     const isPlainObject = getIsPlainObject(functor);
-    console.log(func)
     
     if (isPlainObject) {
         mappedFunctor = {};

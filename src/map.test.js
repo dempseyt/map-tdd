@@ -12,4 +12,11 @@ describe("map", () => {
         expect(map(dec, {})).toStrictEqual({});
         expect(map(dec, {x: 4, y: 5, z: 6})).toStrictEqual({x: 3, y: 4, z: 5});
     });
+    it('interprets ((->) r) as a functor', () => {
+        const f = function(a) { return a - 1; };
+        const g = function(b) { return b * 2; };
+        const h = map(f, g);
+
+        expect(h(10)).toEqual((10 * 2) - 1);
+    })
 });
