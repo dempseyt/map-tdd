@@ -25,8 +25,8 @@ function map(func, functor) {
         }
     }  
     else if (typeof functor === 'function') {
-        return function(...args) {
-            return func(functor(...args));
+        return function(value) {
+            return func(functor(value));
         }
     }
     return mappedFunctor;
