@@ -9,7 +9,9 @@ function getIsPlainObject(value) {
 function map(mapper, functor) {
     let mappedFunctor;
     const isPlainObject = getIsPlainObject(functor);
-    
+    if (functor === null || functor === undefined) {
+        throw new TypeError();
+    }
     if (
         Object.hasOwn(functor, "map") && 
         typeof functor.map === 'function' && 

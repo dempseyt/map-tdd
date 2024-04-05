@@ -32,7 +32,7 @@ describe("map", () => {
         expect(map(add1, listXf)).toEqual({ f: add1, xf: listXf });
     });
     it('throws a TypeError on null and undefined', () => {
-        expect(() => map(times2, null)).toThrow('TypeError');
-        expect(() => map(times2, undefined)).toThrow('TypeError');
+        expect(() => map(times2, null)).toThrow(TypeError);
+        expect(() => map(times2, undefined)).toThrow(TypeError);
     })
 });
