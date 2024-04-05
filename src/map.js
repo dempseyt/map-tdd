@@ -24,6 +24,11 @@ function map(func, functor) {
             mappedFunctor[i] = func(functor[i]);
         }
     }  
+    else if (typeof functor === 'function') {
+        return function(...args) {
+            return func(functor(...args));
+        }
+    }
     return mappedFunctor;
 }
 
