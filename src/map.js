@@ -7,6 +7,12 @@ function getIsPlainObject(value) {
 }
 
 function map(mapper, functor) {
+    if (arguments.length === 1) {
+        return function (valueToMap) {
+            return map(mapper, valueToMap)
+        }
+    }
+
     let mappedFunctor;
     const isPlainObject = getIsPlainObject(functor);
     if (functor === null || functor === undefined) {
