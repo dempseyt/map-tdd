@@ -6,27 +6,33 @@ function getIsPlainObject(value) {
     );
 }
 
-function map(func, functor) {
+function map(mapper, functor) {
     let mappedFunctor;
     const isPlainObject = getIsPlainObject(functor);
-    
+    if (
+        Object.hasOwn(functor, "map") && 
+        typeof functor.map === 'function' && 
+        functor.map.length === 1
+        ) {
+            return functor.map(mapper);
+    }
     if (isPlainObject) {
         mappedFunctor = {};
 
         for (const [key, value] of Object.entries(functor)) {
-            mappedFunctor[key] = func(value);
+            mappedFunctor[key] = mapper(value);
         }
     } 
     else if (Array.isArray(functor)) {
         mappedFunctor = [];
 
         for (let i = 0; i < functor.length; i++) {
-            mappedFunctor[i] = func(functor[i]);
+            mappedFunctor[i] = mapper(functor[i]);
         }
     }  
     else if (typeof functor === 'function') {
         return function(value) {
-            return func(functor(value));
+            return mapper(functor(value));
         }
     }
     return mappedFunctor;
