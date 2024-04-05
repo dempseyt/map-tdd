@@ -34,5 +34,11 @@ describe("map", () => {
     it('throws a TypeError on null and undefined', () => {
         expect(() => map(times2, null)).toThrow(TypeError);
         expect(() => map(times2, undefined)).toThrow(TypeError);
+    });
+    it('composes', () => {
+        const mdouble = map(times2);
+        const mdec = map(dec);
+
+        expect(mdec(mdouble([10, 20, 30]))).toEqual([19, 39, 59]);
     })
 });
