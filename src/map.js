@@ -6,6 +6,18 @@ function getIsPlainObject(value) {
     );
 }
 
+function getIsTransformer(value) {
+    return typeof value['@@transducer/init'] === 'function' &&
+    typeof value['@@transducer/step'] === 'function' &&
+    typeof value['@@transducer/result'] === 'function';
+}
+
+function getIsTransducer(value) {
+    return getIsPlainObject(value.xf) && 
+    (getIsTransformer(value.xf) || getIsTransducer(value.xf)) &&
+    typeof value.f === 'function';
+}
+
 function map(mapper, functor) {
     if (arguments.length === 1) {
         return function (valueToMap) {
@@ -14,7 +26,7 @@ function map(mapper, functor) {
     }
 
     let mappedFunctor;
-    const isPlainObject = getIsPlainObject(functor);
+
     if (functor === null || functor === undefined) {
         throw new TypeError();
     }
@@ -24,8 +36,11 @@ function map(mapper, functor) {
         functor.map.length === 1
         ) {
             return functor.map(mapper);
+    } 
+    else if (getIsTransformer(functor) || getIsTransducer(functor)) {
+        return {xf: functor, f: mapper};
     }
-    else if (isPlainObject) {
+    else if (getIsPlainObject(functor)) {
         mappedFunctor = {};
 
         for (const [key, value] of Object.entries(functor)) {
@@ -44,6 +59,7 @@ function map(mapper, functor) {
             return mapper(functor(value));
         }
     }
+    console.log("mappedFunctor", mappedFunctor)
     return mappedFunctor;
 }
 
