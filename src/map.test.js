@@ -23,7 +23,7 @@ describe("map", () => {
         const obj = {x: 100, map: function(f) { return f(this.x); }};
         expect(map(add1, obj)).toEqual(101);
     });
-    it.skip('dispatches to transformer objects', () => {
+    it('dispatches to transformer objects', () => {
         const listXf = {
             '@@transducer/init': function() { return []; },
             '@@transducer/step': function(acc, x) { return acc.concat([x]); },
