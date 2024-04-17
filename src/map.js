@@ -38,6 +38,16 @@ function map(mapper, functor) {
             return functor.map(mapper);
     } 
     else if (getIsTransformer(functor) || getIsTransducer(functor)) {
+        return mappedFunctor = {
+            "@@transducer/init": functor["@@transducer/init"],
+            "@@transducer/result": functor["@@transducer/result"],
+            "@@transducer/step": function(result, input) {
+                return functor["@@transducer/step"](result, mapper(input))
+            },
+            f: mapper,
+            xf: functor
+        }
+
         return {xf: functor, f: mapper};
     }
     else if (getIsPlainObject(functor)) {
@@ -59,7 +69,6 @@ function map(mapper, functor) {
             return mapper(functor(value));
         }
     }
-    console.log("mappedFunctor", mappedFunctor)
     return mappedFunctor;
 }
 

@@ -30,7 +30,7 @@ describe("map", () => {
         expect(map(add1, obj)).toEqual(101);
     });
     it('dispatches to transformer objects', () => {
-        expect(map(add1, listXf)).toEqual({ f: add1, xf: listXf });
+        expect(map(add1, listXf)).toEqual(expect.objectContaining({ f: add1, xf: listXf }));
     });
     it('throws a TypeError on null and undefined', () => {
         expect(() => map(times2, null)).toThrow(TypeError);
@@ -47,11 +47,11 @@ describe("map", () => {
         const mdec = map(dec);
         const xcomp = mdec(mdouble(listXf));
 
-        expect(xcomp.xf).toEqual({xf: listXf, f: times2});
+        expect(xcomp.xf).toEqual(expect.objectContaining({xf: listXf, f: times2}));
         expect(xcomp.f).toEqual(dec);
     });
     it('can act as a transducer', () => {
-        expect(R.into([], R.map(times2), [1,2,3,4])).toEqual([2,4,6,8]);
-        expect(R.transduce(R.map(times2), R.flip(R.append), [], [1,2,3,4])).toEqual([2,4,6,8])
+        expect(R.into([], map(times2), [1,2,3,4])).toEqual([2,4,6,8]);
+        expect(R.transduce(map(times2), R.flip(R.append), [], [1,2,3,4])).toEqual([2,4,6,8])
     })
 });
